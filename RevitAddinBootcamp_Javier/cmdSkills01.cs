@@ -57,7 +57,7 @@
             // < less than
             // >= and <= 
 
-            // check a value and perform a si ngle action if true
+            // check a value and perform a single action if true
             if (number6 > 10)
             {
                 //do something if true
@@ -154,13 +154,62 @@
             t.Start("I am doing something in Revit");
 
             // create a floor level
-            Level newLevel = Level.Create(doc, 10);
+            Level newLevel = Level.Create(doc, 114.8294);
+            newLevel.Name = "Level 10 FFL";
+
+            // create a filtered element collector to get view family type
+
+            FilteredElementCollector collector1 = new FilteredElementCollector(doc);
+            collector1.OfClass(typeof(ViewFamilyType));
+
+            ViewFamilyType floorPlanVFT = null;
+            foreach (ViewFamilyType curVFT in collector1)
+            {
+                if (curVFT.ViewFamily == ViewFamily.FloorPlan)
+                {
+                    floorPlanVFT = curVFT;
+                }
+            }
+
+            // create a floor plan view
+
+
+            ViewPlan newFloorPlan = ViewPlan.Create (doc, floorPlanVFT.Id, newLevel.Id);
+            newFloorPlan.Name = "Level 10";
+            
+
+            ViewFamilyType ceilingPlanVFT = null;
+            foreach (ViewFamilyType curVFT in collector1)
+            {
+                if (curVFT.ViewFamily == ViewFamily.CeilingPlan)
+                {
+                    ceilingPlanVFT = curVFT;
+                }
+            }
+
+            // create a ceiling plan view
+
+            ViewPlan newCeilingPlan = ViewPlan.Create(doc, ceilingPlanVFT.Id, newLevel.Id);
+            newCeilingPlan.Name = "Level 10";
+
+            // get a titleblock type
+            FilteredElementCollector collector2 = new FilteredElementCollector(doc);
+            collector2.OfCategory(BuiltInCategory.OST_TitleBlocks);
+            collector2.WhereElementIsElementType();
+
+            // create a sheet
+            ViewSheet newSheet = ViewSheet.Create(doc, collector2.FirstElementId());
+            newSheet.Name = "My new sheet";
+            newSheet.SheetNumber = "A101";
+
+            // create a viewport
+            // first create a point
+            XYZ insPoint = new XYZ();
+            XYZ insPoint2 = new XYZ(1, 0.5, 0);
+            Viewport newViewport = Viewport.Create(doc, newSheet.Id, newFloorPlan.Id, insPoint);
 
             t.Commit();
             t.Dispose();
-
-
-
 
             return Result.Succeeded;
         }
