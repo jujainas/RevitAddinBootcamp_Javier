@@ -17,4 +17,12 @@
     <VendorId>Revit Add-in Bootcamp</VendorId>
     <VendorDescription>Revit Add-in Bootcamp, https://academy.archsmarter.com</VendorDescription>
   </AddIn>
+	<AddIn Type="Command">
+		<Text>RAB Skills Module 02</Text>
+		<Description>RAB Skills Module 02</Description>
+		<Assembly>RevitAddinBootcamp_Javier\RevitAddinBootcamp_Javier.dll</Assembly>
+		<FullClassName>RevitAddinBootcamp_Javier.cmdSkills02</FullClassName>
+		<ClientId>F7AD5AFE-AC25-4BFE-9B00-143FCE254CCA</ClientId>
+		<VendorId>Revit Add-in Bootcamp</VendorId>
+		<VendorDescription>Revit Add-in Bootcamp, https://academy.archsmarter.com</VendorDescription>
 </RevitAddIns>
